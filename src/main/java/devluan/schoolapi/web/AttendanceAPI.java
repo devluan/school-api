@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +45,9 @@ public class AttendanceAPI {
             @RequestBody AttendanceInput input
     ) {
         Attendance attendance = attendanceService.createAttendance(attendanceMapper.map(input));
-        return ResponseEntity.ok(attendanceMapper.buildOutputModel(attendance));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(attendanceMapper.buildOutputModel(attendance));
     }
 
     @PutMapping("/{id}")
