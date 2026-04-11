@@ -1,6 +1,7 @@
 package devluan.schoolapi.web;
 
 import devluan.schoolapi.domain.attendance.Attendance;
+import devluan.schoolapi.domain.attendance.AttendancesResume;
 import devluan.schoolapi.domain.attendance.AttendanceService;
 import devluan.schoolapi.web.input.AttendanceInput;
 import devluan.schoolapi.web.mapping.AttendanceMapper;
@@ -30,6 +31,11 @@ public class AttendanceAPI {
     ) {
         Pageable pageable = Pageable.ofSize(size).withPage(page);
         return ResponseEntity.ok(attendanceMapper.map(attendanceService.listAttendances(pageable)));
+    }
+
+    @GetMapping("/resume")
+    public ResponseEntity<AttendancesResume> getResume() {
+        return ResponseEntity.ok(attendanceService.getResume());
     }
 
     @GetMapping("/{id}")

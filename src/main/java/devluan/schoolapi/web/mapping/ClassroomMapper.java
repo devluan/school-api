@@ -48,7 +48,11 @@ public class ClassroomMapper {
                 .add(linkTo(methodOn(ClassroomAPI.class)
                         .findStudentsByClassroom(classroom.getId(), 0, 10))
                         .withRel("students")
-                        .withType("GET"));
+                        .withType("GET"))
+        .add(linkTo(methodOn(ClassroomAPI.class)
+                .findAttendancesByClassroom(classroom.getId(), 0, 10))
+                .withRel("attendances")
+                .withType("GET"));
         return model;
     }
 }

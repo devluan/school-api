@@ -1,5 +1,6 @@
 package devluan.schoolapi.web;
 
+import devluan.schoolapi.domain.attendance.AttendancesResume;
 import devluan.schoolapi.domain.attendance.AttendanceService;
 import devluan.schoolapi.domain.lesson.Lesson;
 import devluan.schoolapi.domain.lesson.LessonService;
@@ -17,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @RestController
@@ -50,6 +52,21 @@ public class LessonAPI {
         Pageable pageable = Pageable.ofSize(size).withPage(page);
         Lesson lesson = lessonService.findLesson(id);
         return ResponseEntity.ok(attendanceMapper.map(attendanceService.findAttendancesByLesson(lesson, pageable)));
+    }
+
+    @GetMapping("/{id}/attendances/resume")
+    public ResponseEntity<AttendancesResume> getAttendanceResumeByLesson(
+            @PathVariable UUID id
+    ) {
+        Lesson lesson = lessonService.findLesson(id);
+        return ResponseEntity.ok(attendanceService.getResumeByLesson(lesson));
+    }
+
+    @GetMapping("/attendances/{date}/resume")
+    public ResponseEntity<AttendancesResume> getAttendanceResumeByLessonDate(
+            @PathVariable LocalDate date
+    ) {
+        return ResponseEntity.ok(attendanceService.getResumeByLessonDate(date));
     }
 
     @PostMapping

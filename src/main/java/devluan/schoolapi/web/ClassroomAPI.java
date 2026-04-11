@@ -1,11 +1,15 @@
 package devluan.schoolapi.web;
 
+import devluan.schoolapi.domain.attendance.AttendancesResume;
+import devluan.schoolapi.domain.attendance.AttendanceService;
 import devluan.schoolapi.domain.classroom.Classroom;
 import devluan.schoolapi.domain.classroom.ClassroomService;
 import devluan.schoolapi.domain.student.StudentService;
 import devluan.schoolapi.web.input.ClassroomInput;
+import devluan.schoolapi.web.mapping.AttendanceMapper;
 import devluan.schoolapi.web.mapping.ClassroomMapper;
 import devluan.schoolapi.web.mapping.StudentMapper;
+import devluan.schoolapi.web.output.AttendanceOutput;
 import devluan.schoolapi.web.output.ClassroomOutput;
 import devluan.schoolapi.web.output.StudentOutput;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +31,8 @@ public class ClassroomAPI {
     private final ClassroomMapper classroomMapper;
     private final StudentService studentService;
     private final StudentMapper studentMapper;
+    private final AttendanceService attendanceService;
+    private final AttendanceMapper attendanceMapper;
 
     @GetMapping
     public ResponseEntity<Page<EntityModel<ClassroomOutput>>> listClassrooms(
@@ -54,6 +60,28 @@ public class ClassroomAPI {
         Pageable pageable = Pageable.ofSize(size).withPage(page);
         Classroom classroom = classroomService.findClassroom(id);
         return ResponseEntity.ok(studentMapper.map(studentService.findStudentsByClassroom(classroom, pageable)));
+    }
+
+
+    @GetMapping("/{id}/attendances")
+    public ResponseEntity<Page<EntityModel<AttendanceOutput>>> findAttendancesByClassroom(
+            @PathVariable UUID id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = Pageable.ofSize(size).withPage(page);
+        Classroom classroom = classroomService.findClassroom(id);
+        return ResponseEntity.ok(
+                attendanceMapper.map(attendanceService.findAttendanceByClassroom(classroom, pageable))
+        );
+    }
+
+    @GetMapping("/{id}/attendances/resume")
+    public ResponseEntity<AttendancesResume> getAttendanceResumeByClassroom(
+            @PathVariable UUID id
+    ) {
+        Classroom classroom = classroomService.findClassroom(id);
+        return ResponseEntity.ok(attendanceService.getResumeByClassroom(classroom));
     }
 
     @PostMapping

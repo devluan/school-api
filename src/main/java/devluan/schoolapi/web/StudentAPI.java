@@ -1,5 +1,6 @@
 package devluan.schoolapi.web;
 
+import devluan.schoolapi.domain.attendance.AttendancesResume;
 import devluan.schoolapi.domain.attendance.AttendanceService;
 import devluan.schoolapi.domain.student.Student;
 import devluan.schoolapi.domain.student.StudentService;
@@ -51,6 +52,14 @@ public class StudentAPI {
         Pageable pageable = Pageable.ofSize(size).withPage(page);
         Student student = studentService.findStudent(id);
         return ResponseEntity.ok(attendanceMapper.map(attendanceService.listAttendancesByStudent(student, pageable)));
+    }
+
+    @GetMapping("/{id}/attendances/resume")
+    public ResponseEntity<AttendancesResume> getAttendancesResumeByStudent(
+            @PathVariable UUID id
+    ) {
+        Student student = studentService.findStudent(id);
+        return ResponseEntity.ok(attendanceService.getResumeByStudent(student));
     }
 
     @PostMapping
