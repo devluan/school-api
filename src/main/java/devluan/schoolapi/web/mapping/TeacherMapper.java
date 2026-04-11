@@ -50,7 +50,7 @@ public class TeacherMapper {
                         .withSelfRel())
                 .add(linkTo(methodOn(TeacherAPI.class)
                         .listTeachers(0, 10))
-                        .withRel("teacher list")
+                        .withRel("teachers")
                         .withType("GET"));
         if (teacher.getSubject() != null) {
             model

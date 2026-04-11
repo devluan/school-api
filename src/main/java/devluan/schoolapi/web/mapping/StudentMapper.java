@@ -51,7 +51,7 @@ public class StudentMapper {
                         .withSelfRel())
                 .add(linkTo(methodOn(StudentAPI.class)
                         .listStudents(0, 10))
-                        .withRel("student list")
+                        .withRel("students")
                         .withType("GET"))
                 .add(linkTo(methodOn(StudentAPI.class)
                         .listAttendancesByStudents(student.getId(), 0, 10))

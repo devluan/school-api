@@ -52,13 +52,13 @@ public class LessonMapper {
                 .add(linkTo(methodOn(LessonAPI.class)
                         .findLesson(lesson.getId()))
                         .withSelfRel())
+                .add((linkTo(methodOn(LessonAPI.class)
+                        .listLessons(0, 10))
+                        .withRel("lessons"))
+                        .withType("GET"))
                 .add(linkTo(methodOn(LessonAPI.class)
                         .findAttendanceByStudents(lesson.getId(), 0, 10))
                         .withRel("attendances")
-                        .withType("GET"))
-                .add((linkTo(methodOn(LessonAPI.class)
-                        .listLessons(0, 10))
-                        .withRel("lesson list"))
                         .withType("GET"));
         return model;
     }

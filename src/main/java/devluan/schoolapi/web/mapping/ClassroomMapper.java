@@ -43,7 +43,7 @@ public class ClassroomMapper {
                         .withSelfRel())
                 .add(linkTo(methodOn(ClassroomAPI.class)
                         .listClassrooms(0, 10))
-                        .withRel("classroom list")
+                        .withRel("classrooms")
                         .withType("GET"))
                 .add(linkTo(methodOn(ClassroomAPI.class)
                         .findStudentsByClassroom(classroom.getId(), 0, 10))

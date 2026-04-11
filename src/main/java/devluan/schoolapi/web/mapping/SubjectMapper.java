@@ -41,7 +41,7 @@ public class SubjectMapper {
                         .withSelfRel())
                 .add(linkTo(methodOn(SubjectAPI.class)
                         .listSubjects(0, 10))
-                        .withRel("subjects list")
+                        .withRel("subjects")
                         .withType("GET"))
                 .add(linkTo(methodOn(SubjectAPI.class)
                         .findTeachersBySubject(subject.getId(), 0, 10))

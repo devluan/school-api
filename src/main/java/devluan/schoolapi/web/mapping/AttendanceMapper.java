@@ -54,7 +54,7 @@ public class AttendanceMapper {
                         .withSelfRel())
                 .add(linkTo(methodOn(AttendanceAPI.class)
                         .listAttendances(0,10))
-                        .withRel("Attendances list")
+                        .withRel("Attendances")
                         .withType("GET"));
         return model;
     }
