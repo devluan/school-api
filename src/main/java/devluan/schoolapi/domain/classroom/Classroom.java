@@ -18,6 +18,7 @@ public class Classroom {
     private UUID id;
     private Integer grade;
     private Character letter;
+    @Enumerated(EnumType.STRING)
     private Shift shift;
     @OneToMany(mappedBy = "classroom")
     private Set<Student> students = new HashSet<>();
