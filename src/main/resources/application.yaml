@@ -1,6 +1,13 @@
 spring:
   application:
     name: school-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/school-api
+    username: postgres
+    password: example
+  jpa:
+    hibernate:
+      ddl-auto: none
 springdoc:
   swagger-ui:
     path: /api-docs
