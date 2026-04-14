@@ -3,6 +3,7 @@ package devluan.schoolapi.web.mapping;
 import devluan.schoolapi.domain.classroom.Classroom;
 import devluan.schoolapi.domain.classroom.ClassroomService;
 import devluan.schoolapi.domain.student.Student;
+import devluan.schoolapi.domain.student.StudentAttendanceRate;
 import devluan.schoolapi.web.ClassroomAPI;
 import devluan.schoolapi.web.StudentAPI;
 import devluan.schoolapi.web.input.StudentInput;
@@ -25,6 +26,10 @@ public class StudentMapper {
         return page.map(this::buildOutputModel);
     }
 
+    public Page<EntityModel<StudentOutput>> mapAttendanceRates(Page<StudentAttendanceRate> page) {
+        return page.map(this::buildOutputModel);
+    }
+
     public Student map(StudentInput input) {
         Student student = new Student();
         BeanUtils.copyProperties(input, student);
@@ -42,24 +47,40 @@ public class StudentMapper {
         );
     }
 
+    public StudentOutput map(StudentAttendanceRate student) {
+        return new StudentOutput(
+                student.getId(),
+                student.getName(),
+                student.getBirthDate(),
+                student.getClassroomId()
+        );
+    }
+
     public EntityModel<StudentOutput> buildOutputModel(Student student) {
-        StudentOutput output = this.map(student);
+        return this.buildOutputModel(this.map(student));
+    }
+
+    public EntityModel<StudentOutput> buildOutputModel(StudentAttendanceRate student) {
+        return this.buildOutputModel(this.map(student));
+    }
+
+    public EntityModel<StudentOutput> buildOutputModel(StudentOutput output) {
         EntityModel<StudentOutput> model = EntityModel.of(output);
         model
                 .add(linkTo(methodOn(StudentAPI.class)
-                        .findStudent(student.getId()))
+                        .findStudent(output.id()))
                         .withSelfRel())
                 .add(linkTo(methodOn(StudentAPI.class)
-                        .listStudents(0, 10))
+                        .listStudents(0, 10, 0, 100))
                         .withRel("students")
                         .withType("GET"))
                 .add(linkTo(methodOn(StudentAPI.class)
-                        .listAttendancesByStudents(student.getId(), 0, 10))
+                        .listAttendancesByStudents(output.id(), 0, 10))
                         .withRel("attendances")
                         .withType("GET"));;
-        if (student.getClassroom() != null) {
+        if (output.classroomId() != null) {
             model.add(linkTo(methodOn(ClassroomAPI.class)
-                    .findClassroom(student.getClassroom().getId()))
+                    .findClassroom(output.classroomId()))
                     .withRel("classroom")
                     .withType("GET"));
         }

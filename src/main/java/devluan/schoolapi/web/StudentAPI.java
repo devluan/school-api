@@ -32,9 +32,11 @@ public class StudentAPI {
     @GetMapping
     public ResponseEntity<Page<EntityModel<StudentOutput>>> listStudents(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "0") double minFreq,
+            @RequestParam(defaultValue = "100") double maxFreq) {
         Pageable pageable = Pageable.ofSize(size).withPage(page);
-        return ResponseEntity.ok(studentMapper.map(studentService.listStudents(pageable)));
+        return ResponseEntity.ok(studentMapper.mapAttendanceRates(studentService.listStudents(minFreq, maxFreq, pageable)));
     }
 
     @GetMapping("/{id}")

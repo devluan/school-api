@@ -13,9 +13,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StudentService {
     private final StudentRepository studentRepository;
+    private final StudentAttendanceRateRepository studentAttendanceRateRepository;
 
-    public Page<Student> listStudents(Pageable pageable) {
-        return studentRepository.findAll(pageable);
+    public Page<StudentAttendanceRate> listStudents(Double minFreq, Double maxFreq, Pageable pageable) {
+        return studentAttendanceRateRepository.findAllByAttendanceRateBetween(minFreq, maxFreq, pageable);
     }
 
     public Student findStudent(UUID id) {
