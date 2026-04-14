@@ -24,8 +24,13 @@ public class StudentService {
                 .orElseThrow(() -> new EntityNotFoundException("Student not found"));
     }
 
-    public Page<Student> findStudentsByClassroom(Classroom classroom, Pageable pageable) {
-        return studentRepository.findStudentsByClassroom(classroom, pageable);
+    public Page<StudentAttendanceRate> findStudentsByClassroom(Classroom classroom, Double minFreq, Double maxFreq, Pageable pageable) {
+        return studentAttendanceRateRepository.findAllByClassroomIdAndAttendanceRateBetween(
+                classroom.getId(),
+                minFreq,
+                maxFreq,
+                pageable
+        );
     }
 
     public Student createStudent(Student student) {

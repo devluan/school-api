@@ -8,4 +8,10 @@ import java.util.UUID;
 
 public interface StudentAttendanceRateRepository extends JpaRepository<StudentAttendanceRate, UUID> {
     Page<StudentAttendanceRate> findAllByAttendanceRateBetween(Double min, Double max, Pageable pageable);
+
+    Page<StudentAttendanceRate> findAllByClassroomIdAndAttendanceRateBetween(
+            UUID classroomId,
+            Double attendanceRateAfter,
+            Double attendanceRateBefore,
+            Pageable pageable);
 }

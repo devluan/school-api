@@ -55,11 +55,14 @@ public class ClassroomAPI {
     public ResponseEntity<Page<EntityModel<StudentOutput>>> findStudentsByClassroom(
             @PathVariable UUID id,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "0") double minFreq,
+            @RequestParam(defaultValue = "100") double maxFreq
     ) {
         Pageable pageable = Pageable.ofSize(size).withPage(page);
         Classroom classroom = classroomService.findClassroom(id);
-        return ResponseEntity.ok(studentMapper.map(studentService.findStudentsByClassroom(classroom, pageable)));
+        return ResponseEntity.ok(studentMapper.mapAttendanceRates(
+                studentService.findStudentsByClassroom(classroom,minFreq, maxFreq, pageable)));
     }
 
 
