@@ -86,35 +86,35 @@ public class AttendanceService {
         Long present = attendanceRepository.countAttendancesByStatus(AttendanceStatus.PRESENT);
         Long absent = attendanceRepository.countAttendancesByStatus(AttendanceStatus.ABSENT);
         Long late = attendanceRepository.countAttendancesByStatus(AttendanceStatus.LATE);
-        return new AttendancesResume(present, late, absent);
+        return new AttendancesResume(present, absent, late);
     }
 
     public AttendancesResume getResumeByStudent(Student student) {
         Long present = attendanceRepository.countAttendancesByStudentAndStatus(student, AttendanceStatus.PRESENT);
         Long absent = attendanceRepository.countAttendancesByStudentAndStatus(student, AttendanceStatus.ABSENT);
         Long late = attendanceRepository.countAttendancesByStudentAndStatus(student, AttendanceStatus.LATE);
-        return new AttendancesResume(present, late, absent);
+        return new AttendancesResume(present, absent, late);
     }
 
     public AttendancesResume getResumeByClassroom(Classroom classroom) {
         Long present = attendanceRepository.countAttendancesByStudentClassroomAndStatus(classroom, AttendanceStatus.PRESENT);
         Long absent = attendanceRepository.countAttendancesByStudentClassroomAndStatus(classroom, AttendanceStatus.ABSENT);
         Long late = attendanceRepository.countAttendancesByStudentClassroomAndStatus(classroom, AttendanceStatus.LATE);
-        return new AttendancesResume(present, late, absent);
+        return new AttendancesResume(present, absent, late);
     }
 
     public AttendancesResume getResumeByLesson(Lesson lesson) {
         Long present = attendanceRepository.countAttendancesByLessonAndStatus(lesson, AttendanceStatus.PRESENT);
         Long absent = attendanceRepository.countAttendancesByLessonAndStatus(lesson, AttendanceStatus.ABSENT);
         Long late = attendanceRepository.countAttendancesByLessonAndStatus(lesson, AttendanceStatus.LATE);
-        return new AttendancesResume(present, late, absent);
+        return new AttendancesResume(present, absent, late);
     }
 
     public AttendancesResume getResumeByLessonDate(LocalDate date) {
         Long present = attendanceRepository.countAttendancesByLessonDateAndStatus(date, AttendanceStatus.PRESENT);
         Long absent = attendanceRepository.countAttendancesByLessonDateAndStatus(date, AttendanceStatus.ABSENT);
         Long late = attendanceRepository.countAttendancesByLessonDateAndStatus(date, AttendanceStatus.LATE);
-        return new AttendancesResume(present, late, absent);
+        return new AttendancesResume(present, absent, late);
     }
 
 }
