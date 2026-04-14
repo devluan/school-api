@@ -6,6 +6,7 @@ import devluan.schoolapi.domain.lesson.LessonService;
 import devluan.schoolapi.domain.student.Student;
 import devluan.schoolapi.domain.student.StudentService;
 import devluan.schoolapi.web.AttendanceAPI;
+import devluan.schoolapi.web.StudentAPI;
 import devluan.schoolapi.web.input.AttendanceInput;
 import devluan.schoolapi.web.output.AttendanceOutput;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +55,11 @@ public class AttendanceMapper {
                         .withSelfRel())
                 .add(linkTo(methodOn(AttendanceAPI.class)
                         .listAttendances(0,10))
-                        .withRel("Attendances")
+                        .withRel("attendances")
+                        .withType("GET"))
+                .add(linkTo(methodOn(StudentAPI.class)
+                        .findStudent(attendance.getStudent().getId()))
+                        .withRel("student")
                         .withType("GET"));
         return model;
     }
